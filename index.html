@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#d9233d">
+  <title>e-Com - Sistem Informasi Jadwal Kegiatan</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <section id="loadingScreen" class="loading-screen">
+    <div class="loading-content">
+      <div class="mascot-loading">
+        <img src="as.png" alt="e-ComAgenda Mascot">
+      </div>
+      <div class="loading-brand">e-Com <span>Agenda</span></div>
+      <p class="loading-subtitle">Your activity, beautifully organized.</p>
+      <div class="progress-track">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+      <div class="progress-info">
+        <span id="loadingText">Menyiapkan aplikasi...</span>
+        <strong id="progressPercent">0%</strong>
+      </div>
+    </div>
+    <div class="loading-footer">Published by Yogi Pratama, a vocational school student</div>
+  </section>
+
+  <!-- LOGIN SCREEN -->
+  <section id="loginScreen" class="login-screen hidden">
+    <div class="login-decoration decoration-one"></div>
+    <div class="login-decoration decoration-two"></div>
+
+    <div class="login-card">
+      <div class="login-logo">
+        <img src="ip.png" alt="Logo Instansi"
+             onerror="this.style.display='none'">
+      </div>
+
+      <div class="login-mascot">
+        <img src="as.png" alt="Maskot RuangAgenda">
+      </div>
+
+      <div class="login-heading">
+        <span class="welcome-label">WELCOME BACK</span>
+        <h1>Halo, Admin</h1>
+        <p>Silakan login untuk mengelola jadwal kegiatan</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="input-wrapper">
+            <span></span>
+            <input type="text" id="username" placeholder="Masukkan username"
+                   autocomplete="username" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <span></span>
+            <input type="password" id="password" placeholder="Masukkan password"
+                   autocomplete="current-password" required>
+            <button type="button" id="togglePassword" class="eye-button">◉</button>
+          </div>
+        </div>
+
+        <p id="loginError" class="login-error"></p>
+        <button type="submit" class="primary-button login-button">
+          Masuk
+        </button>
+      </form>
+
+      <div class="login-bottom">
+        <span class="status-dot"></span>
+        Admin Access Only
+      </div>
+    </div>
+    <p class="login-copyright">© 2026 e-Com Agenda. All rights reserved.</p>
+  </section>
+
+  <!-- MAIN APPLICATION -->
+  <section id="appScreen" class="app-screen hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+    <img src="as.png" alt="Maskot e-Com Agenda">
+    </div>
+        <div>
+          <h2>e-Com Agenda<span></span></h2>
+          <small>Activity Management</small>
+        </div>
+        <button id="closeSidebar" class="close-sidebar">×</button>
+      </div>
+
+      <div class="sidebar-profile">
+        <div class="profile-avatar">Y</div>
+        <div>
+          <strong>Yogi</strong>
+          <small><span class="status-dot"></span> Online</small>
+        </div>
+      </div>
+
+      <div class="nav-label">MENU UTAMA</div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-page="dashboard">
+          <span>▦</span> Dashboard
+        </button>
+        <button class="nav-item" data-page="schedule">
+          <span>▤</span> Daftar Kegiatan
+        </button>
+        <button class="nav-item" data-page="calendar">
+          <span>▦</span> Kalender
+        </button>
+      </nav>
+
+      <div class="nav-label">PENGELOLAAN</div>
+      <nav class="sidebar-nav">
+        <button class="nav-item" id="backupButton">
+          <span>⇩</span> Backup Data
+        </button>
+        <button class="nav-item" id="restoreButton">
+          <span>⇧</span> Restore Data
+        </button>
+        <input type="file" id="restoreInput" accept=".json" hidden>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-help">
+          <div class="help-icon"></div>
+          <strong>Tetap terorganisir</strong>
+          <small>Kelola kegiatanmu dengan mudah</small>
+        </div>
+        <button id="logoutButton" class="logout-button">
+          <span>↪</span> Keluar dari akun
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="menuToggle" class="menu-toggle"></button>
+          <div>
+            <h3 id="pageTitle">Dashboard</h3>
+            <p id="currentDate"></p>
+          </div>
+        </div>
+        <
+          <div class="admin-chip">
+            
+            
+          </div>
+        </div>
+      </header>
+
+      <!-- DASHBOARD PAGE -->
+      <section id="dashboardPage" class="page active-page">
+        <div class="welcome-banner">
+          <div>
+            <span class="banner-label">ADMINISTRATOR PANEL</span>
+            <h1>Selamat datang kembali</h1>
+            <p>Semua kegiatanmu, terorganisir dalam satu tempat</p>
+            <button class="banner-button" id="bannerAddButton">
+              + Tambah Kegiatan
+            </button>
+          </div>
+          <div class="banner-mascot">
+            <img src="as.png" alt="Maskot">
+          </div>
+          <div class="banner-circle"></div>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Ringkasan Aktivitas</h2>
+            <p>Informasi kegiatan secara keseluruhan</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="totalActivities">0</div>
+            <div class="stat-label">Total Kegiatan</div>
+            <div class="stat-note">Seluruh jadwal tersimpan</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="completedActivities">0</div>
+            <div class="stat-label">Selesai</div>
+            <div class="stat-note">Kegiatan telah terlaksana</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="upcomingActivities">0</div>
+            <div class="stat-label">Akan Datang</div>
+            <div class="stat-note">Kegiatan yang belum berlangsung</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="todayActivities">0</div>
+            <div class="stat-label">Hari Ini</div>
+            <div class="stat-note">Agenda pada hari ini</div>
+          </div>
+        </div>
+
+        <div class="content-grid">
+          <div class="panel schedule-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Kegiatan Terbaru</h3>
+                <p>Jadwal yang baru ditambahkan.</p>
+              </div>
+              <button class="text-button" id="seeAllButton">Lihat semua →</button>
+            </div>
+            <div id="recentActivities" class="activity-list"></div>
+          </div>
+
+          <div class="panel quick-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Quick Actions</h3>
+                <p>Akses cepat pengelolaan</p>
+              </div>
+            </div>
+            <button class="quick-action" id="quickAdd">
+              <span class="quick-icon"></span>
+              <span><strong>Tambah Kegiatan</strong><small>Buat jadwal baru</small></span>
+              <b>→</b>
+            </button>
+            <button class="quick-action" id="quickCalendar">
+              <span class="quick-icon calendar-icon"></span>
+              <span><strong>Lihat Kalender</strong><small>Periksa agenda bulanan</small></span>
+              <b>→</b>
+            </button>
+            <button class="quick-action" id="quickBackup">
+              <span class="quick-icon backup-icon"></span>
+              <span><strong>Backup Data</strong><small>Simpan cadangan data</small></span>
+              <b>→</b>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCHEDULE PAGE -->
+      <section id="schedulePage" class="page">
+        <div class="page-intro">
+          <div>
+            <h2>Daftar Kegiatan</h2>
+            <p>Kelola seluruh jadwal kegiatan instansi</p>
+          </div>
+          <button class="primary-button" id="addActivityButton">+ Tambah Kegiatan</button>
+        </div>
+
+        <div class="panel table-panel">
+          <div class="table-toolbar">
+            <div class="search-box">
+              <span>⌕</span>
+              <input type="search" id="searchInput" placeholder="Cari kegiatan...">
+            </div>
+            <select id="filterStatus" class="filter-select">
+              <option value="all">Semua Status</option>
+              <option value="upcoming">Akan Datang</option>
+              <option value="completed">Selesai</option>
+            </select>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>NO</th>
+                  <th>NAMA KEGIATAN</th>
+                  <th>TANGGAL</th>
+                  <th>WAKTU</th>
+                  <th>LOKASI</th>
+                  <th>STATUS</th>
+                  <th>AKSI</th>
+                </tr>
+              </thead>
+              <tbody id="scheduleTableBody"></tbody>
+            </table>
+          </div>
+          <div id="scheduleEmpty" class="empty-state hidden">
+            <div>▤</div>
+            <h3>Belum ada kegiatan</h3>
+            <p>Tambahkan kegiatan pertamamu sekarang.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CALENDAR PAGE -->
+      <section id="calendarPage" class="page">
+        <div class="page-intro">
+          <div>
+            <h2>Kalender Kegiatan</h2>
+            <p>Lihat seluruh agenda berdasarkan tanggal.</p>
+          </div>
+          <button class="primary-button" id="calendarAddButton">+ Tambah Kegiatan</button>
+        </div>
+
+        <div class="calendar-layout">
+          <div class="panel calendar-panel">
+            <div class="calendar-header">
+              <button id="prevMonth">‹</button>
+              <h3 id="calendarMonth"></h3>
+              <button id="nextMonth">›</button>
+            </div>
+            <div class="calendar-weekdays">
+              <span>Min</span><span>Sen</span><span>Sel</span>
+              <span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
+            </div>
+            <div id="calendarDays" class="calendar-days"></div>
+          </div>
+
+          <div class="panel selected-day-panel">
+            <div class="panel-heading">
+              <div>
+                <h3 id="selectedDateTitle">Agenda Hari Ini</h3>
+                <p>Daftar kegiatan pada tanggal terpilih.</p>
+              </div>
+            </div>
+            <div id="selectedDayActivities" class="activity-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="app-footer">
+        <span>© 2026 e-Com Agenda</span>
+        <span>Organize your day, achieve more</span>
+      </footer>
+    </main>
+  </section>
+
+  <!-- ADD / EDIT MODAL -->
+  <div id="activityModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">ACTIVITY MANAGEMENT</span>
+          <h2 id="modalTitle">Tambah Kegiatan</h2>
+        </div>
+        <button id="closeModal" class="modal-close">×</button>
+      </div>
+
+      <form id="activityForm">
+        <input type="hidden" id="editId">
+
+        <div class="form-group">
+          <label for="activityName">Nama Kegiatan *</label>
+          <input type="text" id="activityName" placeholder="Contoh: Rapat koordinasi" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="activityDate">Tanggal *</label>
+            <input type="date" id="activityDate" required>
+          </div>
+          <div class="form-group">
+            <label for="activityTime">Waktu *</label>
+            <input type="time" id="activityTime" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="activityLocation">Lokasi</label>
+          <input type="text" id="activityLocation" placeholder="Masukkan lokasi kegiatan">
+        </div>
+
+        <div class="form-group">
+          <label for="activityCategory">Kategori</label>
+          <select id="activityCategory">
+            <option value="Rapat">Rapat</option>
+            <option value="Pekerjaan">Pekerjaan</option>
+            <option value="Acara">Acara</option>
+            <option value="Pelatihan">Pelatihan</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="activityDescription">Deskripsi</label>
+          <textarea id="activityDescription" rows="3" placeholder="Keterangan tambahan..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelModal" class="secondary-button">Batal</button>
+          <button type="submit" class="primary-button">Simpan Kegiatan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- NOTIFICATION -->
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
